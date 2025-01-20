@@ -1,0 +1,20 @@
+# Core dependencies
+flask==3.0.0
+django==5.0.1
+pytest==7.4.3
+pytest-cov==4.1.0
+black==23.12.1
+flake8==7.0.0
+mypy==1.8.0
+python-dotenv==1.0.0
+pydantic==2.5.3
+
+# Database
+psycopg2-binary==2.9.9
+pymongo==4.6.1
+
+# ML/AI
+transformers==4.36.2
+
+# Development
+pre-commit==3.6.0
