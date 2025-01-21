@@ -7,10 +7,9 @@ black==23.12.1
 flake8==7.0.0
 mypy==1.8.0
 python-dotenv==1.0.0
-pydantic==2.5.3
 
 # Database
-psycopg2-binary==2.9.9
+psycopg2-binary==2.9.9  # Changed from psycopg2
 pymongo==4.6.1
 
 # ML/AI
@@ -18,3 +17,7 @@ transformers==4.36.2
 
 # Development
 pre-commit==3.6.0
+
+# Add explicit versions for pydantic
+pydantic==2.4.2  
+typing-extensions>=4.6.1
