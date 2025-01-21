@@ -5,6 +5,8 @@
 ./docker/init-scripts/mongo/01-init.js
 ./project_tree.txt
 ./pytest.ini
+./frontend/.DS_Store
+./frontend/jest.config.js
 ./frontend/README.md
 ./frontend/public/favicon.ico
 ./frontend/public/index.html
@@ -22,6 +24,8 @@
 ./frontend/src/types/global.d.ts
 ./frontend/src/tests/unit/ci-setup.test.tsx
 ./frontend/src/tests/unit/App.test.tsx
+./frontend/src/tests/setup/__mocks__/fileMock.js
+./frontend/src/tests/setup/test-utils.tsx
 ./frontend/src/App.css
 ./frontend/src/index.css
 ./frontend/src/setupTests.ts
@@ -33,6 +37,7 @@
 ./tests/conftest.py
 ./tests/.DS_Store
 ./tests/integration/test_app_integration.py
+./tests/helpers.py
 ./tests/test_ci_setup.py
 ./export_tree.sh
 ./.gitignore
@@ -40,7 +45,9 @@
 ./package.json
 ./.github/workflows/ci.yml
 ./setup.cfg
+./test-results/junit.xml
 ./wsgi.py
+./src/.DS_Store
 ./src/config.py
 ./src/core/config.py
 ./src/core/__init__.py
