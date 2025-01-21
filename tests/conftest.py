@@ -1,9 +1,13 @@
-import pytest
+# Standard library imports
 import os
-from dotenv import load_dotenv
+import asyncio
 from typing import Dict, Any
+
+# Third-party imports
+import pytest
 import mongomock
 import psycopg2
+from dotenv import load_dotenv
 from pymongo import MongoClient
 
 @pytest.fixture(scope="session", autouse=True)
@@ -81,3 +85,32 @@ def client(test_config):
     app = create_app(test_config)
     with app.test_client() as client:
         yield client
+
+@pytest.fixture(scope="function")
+def setup_test_db(test_db):
+    """Set up test database tables and initial data."""
+    from tests.helpers import DatabaseTestHelper
+    DatabaseTestHelper.setup_postgres_tables(test_db)
+    yield test_db
+
+@pytest.fixture(scope="function")
+def mock_ml_model():
+    """Mock ML model for testing."""
+    class MockModel:
+        def predict(self, input_data):
+            return ["test_pattern_1", "test_pattern_2"]
+        
+        def analyze(self, code):
+            return {
+                "patterns": ["function", "arithmetic"],
+                "complexity": "low"
+            }
+    
+    return MockModel()
+
+@pytest.fixture(scope="function")
+async def clean_mongodb(mock_mongodb):
+    """Provide a clean MongoDB instance for each test."""
+    from tests.helpers import DatabaseTestHelper
+    await DatabaseTestHelper.clear_test_collections(mock_mongodb)
+    yield mock_mongodb
