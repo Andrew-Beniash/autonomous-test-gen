@@ -45,6 +45,7 @@
 ./coverage_html/z_145eef247bfb46b6___init___py.html
 ./coverage_html/class_index.html
 ./requirements.txt
+./tests/database/test_connections.py
 ./tests/unit/test_config.py
 ./tests/unit/test_app.py
 ./tests/conftest.py
@@ -59,6 +60,7 @@
 ./.github/.DS_Store
 ./.github/workflows/ci.yml
 ./setup.cfg
+./docker-compose.yml
 ./coverage.xml
 ./test-results/junit.xml
 ./wsgi.py
