@@ -4,6 +4,7 @@
 ./docker/init-scripts/postgres/01-init.sql
 ./docker/init-scripts/mongo/01-init.js
 ./project_tree.txt
+./pytest.ini
 ./frontend/README.md
 ./frontend/public/favicon.ico
 ./frontend/public/index.html
@@ -19,6 +20,7 @@
 ./frontend/src/index.tsx
 ./frontend/src/App.tsx
 ./frontend/src/types/global.d.ts
+./frontend/src/tests/unit/ci-setup.test.tsx
 ./frontend/src/tests/unit/App.test.tsx
 ./frontend/src/App.css
 ./frontend/src/index.css
@@ -27,9 +29,20 @@
 ./frontend/src/logo.svg
 ./requirements.txt
 ./tests/unit/test_config.py
+./tests/unit/test_app.py
 ./tests/conftest.py
+./tests/.DS_Store
+./tests/integration/test_app_integration.py
+./tests/test_ci_setup.py
 ./export_tree.sh
 ./.gitignore
 ./package-lock.json
 ./package.json
+./.github/workflows/ci.yml
 ./setup.cfg
+./wsgi.py
+./src/config.py
+./src/core/config.py
+./src/core/__init__.py
+./src/__init__.py
+./src/app.py

@@ -20,6 +20,9 @@
     "build": "react-scripts build",
     "prettier:check": "prettier --check .",
     "test": "react-scripts test",
+    "test:watch": "react-scripts test --watchAll",
+    "test:coverage": "react-scripts test --coverage --watchAll=false --coverageDirectory='coverage'",
+    "test:ci": "react-scripts test --ci --coverage --watchAll=false --maxWorkers=2",
     "eject": "react-scripts eject",
     "lint": "eslint src --ext .ts,.tsx",
     "format": "prettier --write \"src/**/*.{ts,tsx}\""
@@ -45,9 +48,27 @@
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^5.0.0",
     "@typescript-eslint/parser": "^5.0.0",
+    "@types/jest": "^29.5.11",
     "eslint": "^8.0.0",
     "eslint-config-prettier": "^8.0.0",
     "eslint-plugin-react": "^7.0.0",
-    "prettier": "^2.0.0"
+    "prettier": "^2.0.0",
+    "identity-obj-proxy": "^3.0.0"
+  },
+  "jest": {
+    "collectCoverageFrom": [
+      "src/**/*.{ts,tsx}",
+      "!src/**/*.d.ts",
+      "!src/index.tsx",
+      "!src/reportWebVitals.ts"
+    ],
+    "coverageThreshold": {
+      "global": {
+        "branches": 80,
+        "functions": 80,
+        "lines": 80,
+        "statements": 80
+      }
+    }
   }
 }

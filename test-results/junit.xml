@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites><testsuite name="pytest" errors="0" failures="2" skipped="0" tests="6" time="0.105" timestamp="2025-01-20T21:33:57.987294" hostname="Mac.hsd1.fl.comcast.net"><testcase classname="tests.unit.test_config" name="test_config_loads_environment_variables" time="0.002"><failure message="AssertionError: assert 'postgresql://localhost:5432/test_gen_db' == 'postgresql://test:test@localhost:5432/test_db'&#10;  - postgresql://test:test@localhost:5432/test_db&#10;  ?              ----------&#10;  + postgresql://localhost:5432/test_gen_db&#10;  ?                                  ++++">mock_env_vars = None
+
+    def test_config_loads_environment_variables(mock_env_vars):
+        """Test that configuration loads from environment variables."""
+        config = Config()
+&gt;       assert config.database_url == 'postgresql://test:test@localhost:5432/test_db'
+E       AssertionError: assert 'postgresql://localhost:5432/test_gen_db' == 'postgresql://test:test@localhost:5432/test_db'
+E         - postgresql://test:test@localhost:5432/test_db
+E         ?              ----------
+E         + postgresql://localhost:5432/test_gen_db
+E         ?                                  ++++
+
+tests/unit/test_config.py:16: AssertionError</failure></testcase><testcase classname="tests.unit.test_config" name="test_config_uses_defaults_when_env_vars_missing" time="0.001"><failure message="AssertionError: assert 'postgresql://localhost:5432/test_gen_db' == 'postgresql://test:test@localhost:5432/test_db'&#10;  - postgresql://test:test@localhost:5432/test_db&#10;  ?              ----------&#10;  + postgresql://localhost:5432/test_gen_db&#10;  ?                                  ++++">monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x107746f50&gt;
+
+    def test_config_uses_defaults_when_env_vars_missing(monkeypatch):
+        """Test that configuration uses defaults when environment variables are not set."""
+        # Clear any existing environment variables
+        monkeypatch.delenv('DATABASE_URL', raising=False)
+        monkeypatch.delenv('MONGODB_URL', raising=False)
+        monkeypatch.delenv('SECRET_KEY', raising=False)
+        monkeypatch.delenv('DEBUG', raising=False)
+    
+        config = Config()
+&gt;       assert config.database_url == 'postgresql://test:test@localhost:5432/test_db'
+E       AssertionError: assert 'postgresql://localhost:5432/test_gen_db' == 'postgresql://test:test@localhost:5432/test_db'
+E         - postgresql://test:test@localhost:5432/test_db
+E         ?              ----------
+E         + postgresql://localhost:5432/test_gen_db
+E         ?                                  ++++
+
+tests/unit/test_config.py:30: AssertionError</failure></testcase><testcase classname="tests.unit.test_config" name="test_config_validates_required_variables" time="0.000" /><testcase classname="tests.unit.test_config" name="test_config_validates_url_formats" time="0.000" /><testcase classname="tests.unit.test_config" name="test_config_as_dict" time="0.000" /><testcase classname="tests.unit.test_config" name="test_config_from_env" time="0.000" /></testsuite></testsuites>

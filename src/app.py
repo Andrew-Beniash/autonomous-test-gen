@@ -2,7 +2,7 @@ from flask import Flask, jsonify
 from http import HTTPStatus
 from typing import Dict, Any
 
-def create_app(test_config: Dict[str, Any] = None) -> Flask:
+def create_app(test_config: Dict[str, Any] | None = None) -> Flask:
     """Create and configure the Flask application.
     
     Args:

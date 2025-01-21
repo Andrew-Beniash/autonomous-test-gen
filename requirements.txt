@@ -21,3 +21,8 @@ pre-commit==3.6.0
 # Add explicit versions for pydantic
 pydantic==2.4.2  
 typing-extensions>=4.6.1
+
+mongomock==4.1.2  # For MongoDB mocking
+pytest-mock==3.10.0  # For general mocking utilities
+pytest-cov==4.1.0  # For coverage reporting
+pytest-xdist==3.3.1  # For parallel test execution
