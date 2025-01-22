@@ -219,3 +219,14 @@ class PythonASTParser(ASTParser):
         return (node.name.startswith('Test') or 
                 any(base.id == 'TestCase' for base in node.bases 
                     if isinstance(base, ast.Name)))
+    
+class PythonParser:
+    def parse(self, code: str) -> Optional[ast.AST]:
+        """Parse Python code string into AST."""
+        if not code or not code.strip():
+            raise ValueError("Cannot parse empty code")
+        
+        try:
+            return ast.parse(code)
+        except SyntaxError as e:
+            raise ValueError(f"Invalid Python code: {str(e)}")

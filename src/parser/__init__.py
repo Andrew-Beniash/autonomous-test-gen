@@ -11,6 +11,7 @@ from src.parser.ast_parser import (
     Parameter
 )
 from src.parser.python_parser import PythonASTParser
+from .python_parser import PythonParser
 
 __all__ = [
     'ASTParser',
@@ -20,5 +21,6 @@ __all__ = [
     'Method',
     'Class',
     'Parameter',
-    'PythonASTParser'
+    'PythonASTParser',
+    'PythonParser'
 ]

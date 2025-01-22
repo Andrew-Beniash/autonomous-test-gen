@@ -1,10 +1,36 @@
 from dataclasses import dataclass, field
-from typing import List, Optional
+from typing import List, Optional, Any, Dict
+
+@dataclass
+class Function:
+    name: str
+    params: List[str]
+    return_type: str
+    body: str
+    docstring: Optional[str] = None
+
+@dataclass
+class Class:
+    name: str
+    methods: List[Function]
+    attributes: List[str]
+    base_classes: List[str] = field(default_factory=list)
+    docstring: Optional[str] = None
+
+@dataclass
+class TestCase:
+    test_name: str
+    function_name: str
+    parameters: Dict[str, Any]
+    body: str
+    description: str
+    test_data: Dict[str, Any]
+    docstring: Optional[str] = None
 
 @dataclass
 class ImportDefinition:
     module: str
-    names: List[str] = field(default_factory=list)
+    names: List[str]
     is_from_import: bool = False
 
 @dataclass
@@ -31,9 +57,10 @@ class CodeDependency:
 @dataclass
 class ComplexityMetrics:
     cyclomatic_complexity: int
-    loc: int  # Lines of code
-    comment_ratio: float
+    cognitive_complexity: int
+    lines_of_code: int
     
+
 @dataclass
 class AnalysisResult:
     classes: List[ClassDefinition] = field(default_factory=list)
@@ -43,21 +70,17 @@ class AnalysisResult:
     def get_dependencies(self) -> List[CodeDependency]:
         """Extract all code dependencies."""
         dependencies = []
-        
-        # Add import dependencies
         for imp in self.imports:
             dependencies.append(CodeDependency(
                 name=imp.module,
                 type='import'
             ))
-            
         return dependencies
     
     def get_complexity_metrics(self) -> ComplexityMetrics:
         """Calculate code complexity metrics."""
-        # This is a placeholder implementation
         return ComplexityMetrics(
             cyclomatic_complexity=1,
-            loc=len(str(self).split('\n')),
-            comment_ratio=0.1
+            cognitive_complexity=1,
+            lines_of_code=len(str(self).split('\n'))
         )
