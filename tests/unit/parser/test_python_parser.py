@@ -59,24 +59,69 @@ class Calculator:
         assert cls.methods[2].is_property
         assert cls.methods[0].name == "__init__"
 
-    def test_parse_complex_function(self):
-        """Test parsing a function with complex control flow"""
+    def test_parse_async_function(self):
+        """Test parsing async function definitions"""
         code = '''
-def calculate_grade(score: float) -> str:
-    if score >= 90:
-        return "A"
-    elif score >= 80:
-        return "B"
-    elif score >= 70:
-        return "C"
-    elif score >= 60:
-        return "D"
-    else:
-        return "F"
+async def fetch_data(url: str) -> dict:
+    """Fetch data from URL asynchronously."""
+    return {"data": "example"}
+
+async def process_items(items: List[int]) -> List[int]:
+    async for item in items:
+        yield item * 2
 '''
         structure = self.parser.parse(code)
-        func = structure.functions[0]
-        assert func.complexity > 1  # Should have higher complexity due to if/elif branches
+        
+        assert len(structure.functions) == 2
+        fetch_func = next(f for f in structure.functions if f.name == "fetch_data")
+        process_func = next(f for f in structure.functions if f.name == "process_items")
+        
+        assert fetch_func.is_async
+        assert fetch_func.is_coroutine
+        assert not fetch_func.is_generator
+        
+        assert process_func.is_async
+        assert process_func.is_generator
+        assert process_func.is_coroutine
+
+    def test_parse_async_class_methods(self):
+        """Test parsing class with async methods"""
+        code = '''
+class DataProcessor:
+    async def fetch(self, url: str) -> bytes:
+        """Fetch raw data."""
+        return b"example"
+    
+    @staticmethod
+    async def validate(data: bytes) -> bool:
+        """Validate the data."""
+        return len(data) > 0
+        
+    async def process_stream(self, stream: AsyncIterator[bytes]) -> List[bytes]:
+        """Process a stream of data."""
+        result = []
+        async for chunk in stream:
+            result.append(chunk)
+        return result
+'''
+        structure = self.parser.parse(code)
+        
+        assert len(structure.classes) == 1
+        cls = structure.classes[0]
+        assert len(cls.methods) == 3
+        
+        fetch_method = next(m for m in cls.methods if m.name == "fetch")
+        validate_method = next(m for m in cls.methods if m.name == "validate")
+        process_method = next(m for m in cls.methods if m.name == "process_stream")
+        
+        assert fetch_method.is_async
+        assert fetch_method.is_coroutine
+        
+        assert validate_method.is_async
+        assert validate_method.is_static
+        
+        assert process_method.is_async
+        assert process_method.is_coroutine
 
     def test_parse_with_dependencies(self):
         """Test parsing code with import statements"""

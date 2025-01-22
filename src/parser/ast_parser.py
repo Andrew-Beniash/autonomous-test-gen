@@ -27,6 +27,9 @@ class Function:
     has_docstring: bool
     exceeds_length_limit: bool
     body: str
+    is_async: bool = False
+    is_generator: bool = False
+    is_coroutine: bool = False
 
 @dataclass
 class Method(Function):

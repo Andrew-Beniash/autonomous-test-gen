@@ -84,6 +84,19 @@ class PythonASTParser(ASTParser):
 
         return_type = self._get_annotation(node.returns) if hasattr(node, 'returns') else None
         
+        # Check if function is async
+        is_async = isinstance(node, ast.AsyncFunctionDef)
+        
+        # Check if function is a generator (contains yield or yield from)
+        is_generator = False
+        for child in ast.walk(node):
+            if isinstance(child, (ast.Yield, ast.YieldFrom)):
+                is_generator = True
+                break
+        
+        # A coroutine is either an async function or an async generator
+        is_coroutine = is_async
+        
         return Function(
             name=node.name,
             parameters=parameters,
@@ -91,7 +104,10 @@ class PythonASTParser(ASTParser):
             complexity=self._calculate_complexity(node),
             has_docstring=ast.get_docstring(node) is not None,
             exceeds_length_limit=self._check_length_limit(node),
-            body=self._get_function_body(node)
+            body=self._get_function_body(node),
+            is_async=is_async,
+            is_generator=is_generator,
+            is_coroutine=is_coroutine
         )
 
     def _parse_class(self, node: ast.ClassDef) -> Class:
@@ -147,11 +163,13 @@ class PythonASTParser(ASTParser):
         complexity = 1
         
         for child in ast.walk(node):
-            if isinstance(child, (ast.If, ast.While, ast.For, ast.ExceptHandler, 
-                                ast.With, ast.AsyncWith, ast.AsyncFor)):
+            if isinstance(child, (ast.If, ast.While, ast.For, ast.AsyncFor,
+                                ast.ExceptHandler, ast.With, ast.AsyncWith)):
                 complexity += 1
             elif isinstance(child, ast.BoolOp):
                 complexity += len(child.values) - 1
+            elif isinstance(child, (ast.Await, ast.AsyncFor, ast.AsyncWith)):
+                complexity += 1  # Add complexity for async operations
 
         return complexity
 
